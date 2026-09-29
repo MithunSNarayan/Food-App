@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="View your past food orders, re-order your favourites, and download tax invoices." />
+    <title>Your Orders — FoodApp</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/orders.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Dynamic Header / Navbar -->
+    <div id="navbarPlaceholder"></div>
+
+    <!-- Main Page Content -->
+    <main>
+      <div class="container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb" style="padding: 16px 0 8px 0;">
+          <ul class="breadcrumb-list" style="display: flex; gap: 8px; list-style: none; font-size: 13px; color: var(--color-text-muted);">
+            <li><a href="index.html">Home</a></li>
+            <li>/</li>
+            <li style="color: var(--color-text-primary); font-weight: 600;">Your Orders</li>
+          </ul>
+        </nav>
+
+        <!-- Orders Main Section -->
+        <section class="orders-main-section">
+          <div class="orders-container">
+            <!-- Header & Filter Tabs -->
+            <div class="orders-page-header">
+              <div class="orders-title-group">
+                <h1>Order History</h1>
+                <p>View, re-order, track, and download past invoices</p>
+              </div>
+
+              <!-- Filter Tabs -->
+              <div class="orders-filter-tabs">
+                <button class="orders-tab-btn active" onclick="OrderHistory.setFilterTab('ALL', this)">All</button>
+                <button class="orders-tab-btn" onclick="OrderHistory.setFilterTab('IN_PROGRESS', this)">In Progress</button>
+                <button class="orders-tab-btn" onclick="OrderHistory.setFilterTab('DELIVERED', this)">Delivered</button>
+                <button class="orders-tab-btn" onclick="OrderHistory.setFilterTab('CANCELLED', this)">Cancelled</button>
+              </div>
+            </div>
+
+            <!-- Orders List -->
+            <div class="orders-list" id="ordersListContainer"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Invoice Modal -->
+    <div class="modal-overlay" id="invoiceModal" onclick="OrderHistory.closeInvoiceModal()">
+      <div class="modal-card" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="OrderHistory.closeInvoiceModal()" aria-label="Close invoice">✕</button>
+        <div id="invoiceModalContent"></div>
+      </div>
+    </div>
+
+    <!-- Dynamic Footer -->
+    <div id="footerPlaceholder"></div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/orders.js"></script>
+  </body>
+</html>

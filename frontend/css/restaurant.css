@@ -1,0 +1,555 @@
+/* ==========================================================================
+   FoodApp - Restaurant Detail & Menu Page Styles
+   Only HTML, CSS, JavaScript
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. BREADCRUMBS
+   -------------------------------------------------------------------------- */
+.breadcrumb-nav {
+  padding: var(--space-4) 0;
+  font-size: var(--font-body-sm);
+  color: var(--color-text-muted);
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  list-style: none;
+}
+
+.breadcrumb-list a {
+  color: var(--color-text-secondary);
+}
+
+.breadcrumb-list a:hover {
+  color: var(--color-primary);
+}
+
+.breadcrumb-separator {
+  color: var(--color-border);
+}
+
+.breadcrumb-current {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   2. RESTAURANT HERO HEADER CARD
+   -------------------------------------------------------------------------- */
+.restaurant-hero-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-8);
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.resto-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.resto-name {
+  font-size: var(--font-h1);
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+.resto-cuisines {
+  font-size: var(--font-body);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.resto-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-body-sm);
+  color: var(--color-text-muted);
+}
+
+.resto-meta-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-3) 0;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+  margin-top: var(--space-2);
+}
+
+.resto-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-item-label {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.meta-item-value {
+  font-size: var(--font-body-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Offer Banner in Hero */
+.resto-offer-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-primary-soft);
+  color: var(--color-primary-dark);
+  font-size: var(--font-body-sm);
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-btn);
+  border: 1px dashed rgba(255, 107, 53, 0.4);
+  width: fit-content;
+}
+
+/* Restaurant Image Hero */
+.resto-image-col {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  height: 180px;
+  box-shadow: var(--shadow-sm);
+}
+
+.resto-image-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   3. MENU CONTROLS & STICKY TABS
+   -------------------------------------------------------------------------- */
+.menu-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+  flex-wrap: wrap;
+}
+
+.veg-toggle-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: 6px 14px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+}
+
+.veg-toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+  transition: background-color var(--transition-fast);
+}
+
+.veg-toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  transition: transform var(--transition-fast);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.veg-toggle-wrapper.active .veg-toggle-switch {
+  background-color: var(--color-success);
+}
+
+.veg-toggle-wrapper.active .veg-toggle-switch::after {
+  transform: translateX(16px);
+}
+
+.menu-search-input {
+  max-width: 320px;
+  width: 100%;
+}
+
+/* Sticky Category Tabs */
+.category-tabs-nav {
+  position: sticky;
+  top: var(--header-height);
+  background-color: rgba(255, 253, 251, 0.96);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-8);
+  scrollbar-width: none;
+}
+
+.category-tabs-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tab-btn {
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.category-tab-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.category-tab-btn.active {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(255, 107, 53, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   4. MENU ITEMS & CARDS
+   -------------------------------------------------------------------------- */
+.menu-category-section {
+  margin-bottom: var(--space-12);
+  scroll-margin-top: calc(var(--header-height) + 60px);
+}
+
+.menu-category-title {
+  font-size: var(--font-h3);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.category-count-badge {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.menu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Individual Dish Card */
+.menu-item-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+}
+
+.menu-item-card:hover {
+  border-color: var(--color-border);
+  box-shadow: var(--shadow-md);
+}
+
+.item-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* Veg / Non-Veg Indicator Icon */
+.food-type-icon {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid #2E8B57;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px;
+}
+
+.food-type-icon.non-veg {
+  border-color: #D64545;
+}
+
+.food-type-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2E8B57;
+}
+
+.food-type-icon.non-veg .food-type-dot {
+  background-color: #D64545;
+  border-radius: 0;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.item-name {
+  font-size: var(--font-h4);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.item-price {
+  font-size: var(--font-body);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.item-description {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  max-width: 600px;
+}
+
+/* Item Image & Action Box */
+.item-action-wrapper {
+  position: relative;
+  width: 140px;
+  height: 120px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.item-image {
+  width: 100%;
+  height: 100px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Interactive Add Button / Quantity Counter */
+.item-add-btn-container {
+  position: absolute;
+  bottom: 0;
+  width: 100px;
+}
+
+.btn-add-food {
+  width: 100%;
+  height: 36px;
+  background-color: #FFFFFF;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-btn);
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.btn-add-food:hover {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.quantity-stepper {
+  width: 100%;
+  height: 36px;
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px;
+  box-shadow: 0 4px 10px rgba(255, 107, 53, 0.25);
+}
+
+.quantity-stepper button {
+  color: #FFFFFF;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.quantity-stepper span {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.badge-out-of-stock {
+  width: 100%;
+  height: 36px;
+  background-color: var(--color-surface-soft);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   5. STICKY FLOATING CART BAR
+   -------------------------------------------------------------------------- */
+.floating-cart-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(120%);
+  width: calc(100% - 48px);
+  max-width: var(--max-width);
+  background: #1F1F1F;
+  color: #FFFFFF;
+  padding: 14px 24px;
+  border-radius: 18px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 999;
+  transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.floating-cart-bar.visible {
+  transform: translateX(-50%) translateY(0);
+}
+
+.cart-bar-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.cart-bar-count {
+  font-size: var(--font-body);
+  font-weight: 700;
+}
+
+.cart-bar-divider {
+  width: 1px;
+  height: 18px;
+  background-color: #444444;
+}
+
+.cart-bar-total {
+  font-size: var(--font-body);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.cart-bar-btn {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-body-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.cart-bar-btn:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .restaurant-hero-card {
+    grid-template-columns: 1fr;
+    padding: var(--space-6);
+  }
+
+  .resto-image-col {
+    display: none;
+  }
+
+  .resto-name {
+    font-size: 24px;
+  }
+
+  .resto-meta-row {
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .menu-item-card {
+    padding: var(--space-4);
+    gap: var(--space-4);
+  }
+
+  .item-action-wrapper {
+    width: 110px;
+    height: 105px;
+  }
+
+  .item-image {
+    height: 85px;
+  }
+
+  .item-add-btn-container {
+    width: 90px;
+  }
+
+  .floating-cart-bar {
+    bottom: 16px;
+    width: calc(100% - 32px);
+    padding: 12px 18px;
+  }
+}

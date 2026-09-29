@@ -1,0 +1,401 @@
+/* ==========================================================================
+   FoodApp - Order Confirmation & Live Tracking Styles
+   Only HTML, CSS, JavaScript
+   ========================================================================== */
+
+.tracking-main-section {
+  padding: var(--space-8) 0 var(--space-16) 0;
+}
+
+.tracking-layout {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+
+/* --------------------------------------------------------------------------
+   1. SUCCESS HEADER & ETA CARD
+   -------------------------------------------------------------------------- */
+.tracking-hero-card {
+  background: linear-gradient(135deg, #2E8B57 0%, #1F6A40 100%);
+  color: #FFFFFF;
+  border-radius: var(--radius-container);
+  padding: var(--space-8);
+  box-shadow: 0 12px 32px rgba(46, 139, 87, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+  position: relative;
+  overflow: hidden;
+}
+
+.tracking-hero-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.tracking-check-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.tracking-hero-info h1 {
+  color: #FFFFFF;
+  font-size: var(--font-h3);
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.tracking-hero-info p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: var(--font-body-sm);
+}
+
+.order-id-pill {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.tracking-eta-box {
+  background-color: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-card);
+  padding: var(--space-3) var(--space-5);
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.eta-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.9;
+  margin-bottom: 2px;
+}
+
+.eta-time {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   2. LIVE STEPPER CARD (4-STAGE PIPELINE)
+   -------------------------------------------------------------------------- */
+.tracking-stepper-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+}
+
+.stepper-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+
+.stepper-header h3 {
+  font-size: var(--font-h4);
+  font-weight: 700;
+}
+
+.stepper-pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  position: relative;
+}
+
+.stepper-pipeline::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  bottom: 20px;
+  width: 3px;
+  background-color: var(--color-border);
+  z-index: 1;
+}
+
+.stepper-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  position: relative;
+  z-index: 2;
+}
+
+.step-circle-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background-color: var(--color-surface-soft);
+  border: 2.5px solid var(--color-border);
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: all var(--transition-normal);
+}
+
+.stepper-step.completed .step-circle-icon {
+  background-color: #2E8B57;
+  border-color: #2E8B57;
+  color: #FFFFFF;
+}
+
+.stepper-step.active .step-circle-icon {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 0 0 5px var(--color-primary-soft);
+  animation: pulseStep 2s infinite;
+}
+
+@keyframes pulseStep {
+  0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 107, 53, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
+}
+
+.step-details-group h4 {
+  font-size: var(--font-body);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.stepper-step.pending .step-details-group h4 {
+  color: var(--color-text-muted);
+}
+
+.step-details-group p {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+}
+
+.step-timestamp {
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Simulation Controls Box */
+.simulation-bar {
+  background-color: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  padding: 12px 18px;
+  margin-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.simulation-bar p {
+  font-size: var(--font-caption);
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   3. DELIVERY PARTNER CARD
+   -------------------------------------------------------------------------- */
+.rider-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+
+.rider-info-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.rider-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.rider-details h4 {
+  font-size: var(--font-body);
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.rider-details p {
+  font-size: var(--font-caption);
+  color: var(--color-text-muted);
+}
+
+.btn-call-rider {
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  border: 1px solid rgba(255, 107, 53, 0.3);
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-body-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-call-rider:hover {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   4. RIGHT COLUMN: RECEIPT CARD
+   -------------------------------------------------------------------------- */
+.tracking-receipt-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: calc(var(--header-height) + 24px);
+}
+
+.receipt-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.receipt-title-row h3 {
+  font-size: var(--font-h4);
+  font-weight: 700;
+}
+
+.receipt-status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-pill);
+}
+
+.receipt-status-badge.paid {
+  background-color: var(--color-success-soft);
+  color: var(--color-success);
+}
+
+.receipt-status-badge.pending {
+  background-color: var(--color-warning-soft);
+  color: var(--color-warning);
+}
+
+.receipt-resto-box {
+  margin-bottom: var(--space-4);
+}
+
+.receipt-resto-box h4 {
+  font-size: var(--font-body);
+  font-weight: 700;
+}
+
+.receipt-resto-box p {
+  font-size: var(--font-caption);
+  color: var(--color-text-muted);
+}
+
+.receipt-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: var(--space-3) 0;
+  border-top: 1px dashed var(--color-border);
+  border-bottom: 1px dashed var(--color-border);
+  margin-bottom: var(--space-4);
+}
+
+.receipt-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-body-sm);
+}
+
+.receipt-cancel-btn {
+  width: 100%;
+  padding: 10px;
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+  font-size: var(--font-body-sm);
+  background: transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: var(--space-4);
+}
+
+.receipt-cancel-btn:hover {
+  background-color: var(--color-error-soft);
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+  .tracking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .tracking-hero-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tracking-eta-box {
+    width: 100%;
+  }
+
+  .tracking-receipt-card {
+    position: static;
+  }
+}

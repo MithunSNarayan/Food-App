@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Manage FoodApp restaurant partners, onboard new outlets, and configure delivery settings." />
+    <title>Restaurant Management — FoodApp Admin</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="admin-body">
+    <div class="admin-layout-wrapper">
+      <!-- Admin Sidebar -->
+      <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+      <!-- Main Admin View Area -->
+      <div class="admin-main">
+        <!-- Admin Topbar -->
+        <header class="admin-topbar" id="adminTopbar"></header>
+
+        <!-- Admin Content Area -->
+        <main class="admin-content-area">
+          <!-- Page Header -->
+          <div class="flex items-center justify-between" style="margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h1 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Restaurant Management</h1>
+              <p style="font-size: 13.5px; color: #64748B;" id="restaurantCountText">Manage partner restaurants and outlet operating status</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="AdminRestaurants.openAddModal()" style="box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);">
+              <span>+</span> Onboard New Restaurant
+            </button>
+          </div>
+
+          <!-- Filters & Search Bar Card -->
+          <div class="admin-card" style="padding: 16px 20px; margin-bottom: 20px;">
+            <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: 16px;">
+              <div style="flex: 1; max-width: 420px; position: relative;">
+                <input type="text" id="restoSearchInput" class="saas-input" placeholder="Search by restaurant name, cuisine, or location..." style="padding-left: 38px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="position: absolute; left: 12px; top: 13px; pointer-events: none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+
+              <div class="flex items-center gap-3">
+                <label style="font-size: 12.5px; font-weight: 700; color: #64748B; text-transform: uppercase;">Status:</label>
+                <select id="statusFilterSelect" class="saas-input" style="width: 160px; height: 42px; cursor: pointer;">
+                  <option value="ALL">All Outlets</option>
+                  <option value="ACTIVE">Open (Active)</option>
+                  <option value="INACTIVE">Closed (Offline)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Restaurants Table Card -->
+          <div class="admin-card" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Restaurant</th>
+                    <th>Cuisines</th>
+                    <th>Delivery ETA</th>
+                    <th>Rating</th>
+                    <th>Store Status</th>
+                    <th>Admin Owner</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="restaurantsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Onboard / Edit Restaurant Modal -->
+    <div class="modal-overlay" id="restoModal" onclick="AdminRestaurants.closeModal()">
+      <div class="modal-card" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="AdminRestaurants.closeModal()" aria-label="Close modal">✕</button>
+
+        <div class="modal-header-box">
+          <h3 id="modalTitle">Onboard New Restaurant</h3>
+          <p>Fill in restaurant outlet details and operating preferences</p>
+        </div>
+
+        <form id="restoForm" onsubmit="AdminRestaurants.saveRestaurant(event)">
+          <input type="hidden" id="formRestoId">
+
+          <div class="modal-form-grid">
+            <!-- Restaurant Name -->
+            <div class="full-col">
+              <label class="saas-label" for="formRestoName">Restaurant Name *</label>
+              <input type="text" id="formRestoName" class="saas-input" placeholder="e.g. Empire Restaurant" required>
+            </div>
+
+            <!-- Cuisines -->
+            <div>
+              <label class="saas-label" for="formRestoCuisine">Cuisine Types *</label>
+              <input type="text" id="formRestoCuisine" class="saas-input" placeholder="e.g. Biryani, North Indian" required>
+            </div>
+
+            <!-- Delivery Time -->
+            <div>
+              <label class="saas-label" for="formRestoDeliveryTime">Delivery ETA (Mins) *</label>
+              <input type="number" id="formRestoDeliveryTime" class="saas-input" value="30" min="10" max="90" required>
+            </div>
+
+            <!-- Address -->
+            <div class="full-col">
+              <label class="saas-label" for="formRestoAddress">Outlet Address *</label>
+              <input type="text" id="formRestoAddress" class="saas-input" placeholder="e.g. 80ft Road, Indiranagar, Bengaluru" required>
+            </div>
+
+            <!-- Rating -->
+            <div>
+              <label class="saas-label" for="formRestoRating">Initial Rating (1.0 - 5.0)</label>
+              <input type="number" id="formRestoRating" class="saas-input" value="4.5" step="0.1" min="1" max="5">
+            </div>
+
+            <!-- Image URL -->
+            <div>
+              <label class="saas-label" for="formRestoImage">Banner Image URL</label>
+              <input type="url" id="formRestoImage" class="saas-input" placeholder="https://images.unsplash.com/...">
+            </div>
+          </div>
+
+          <!-- Operating Status Toggle Box -->
+          <label class="modal-toggle-row">
+            <span class="switch-control">
+              <input type="checkbox" id="formRestoIsActive" checked>
+              <span class="slider-round"></span>
+            </span>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A;">Restaurant is Active and Open</div>
+              <div style="font-size: 12px; color: #64748B;">When active, customers can discover and place orders immediately.</div>
+            </div>
+          </label>
+
+          <!-- Footer Actions -->
+          <div class="modal-footer-actions">
+            <button type="button" class="btn btn-outline" onclick="AdminRestaurants.closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);">
+              Save Restaurant
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/admin-restaurants.js"></script>
+  </body>
+</html>

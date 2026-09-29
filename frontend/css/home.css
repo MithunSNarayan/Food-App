@@ -1,0 +1,510 @@
+/* ==========================================================================
+   FoodApp - Home Page Styles
+   Only HTML, CSS, JavaScript
+   Light & Dark Mode Adaptive
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. HERO SECTION
+   -------------------------------------------------------------------------- */
+.hero-section {
+  position: relative;
+  background: linear-gradient(180deg, var(--color-primary-soft) 0%, rgba(255, 122, 69, 0.03) 80%, var(--color-bg) 100%);
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-16);
+  overflow: hidden;
+  transition: var(--transition-theme);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  align-items: center;
+  gap: var(--space-12);
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-primary);
+  font-size: var(--font-body-sm);
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  width: fit-content;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-title {
+  font-size: var(--font-display);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+.hero-title span.highlight {
+  color: var(--color-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.hero-subtitle {
+  font-size: var(--font-body-lg);
+  color: var(--color-text-secondary);
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* Hero Search Box */
+.hero-search-box {
+  background: var(--color-surface);
+  padding: 8px;
+  border-radius: 18px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+  max-width: 580px;
+  transition: var(--transition-theme);
+}
+
+.hero-loc-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3);
+  border-right: 1px solid var(--color-border);
+  min-width: 170px;
+}
+
+.hero-loc-input svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.hero-loc-input input {
+  border: none;
+  background: transparent;
+  font-size: var(--font-body-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  width: 100%;
+}
+
+.hero-loc-input input:focus {
+  outline: none;
+}
+
+.hero-search-input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1;
+  padding: 0 var(--space-2);
+}
+
+.hero-search-input svg {
+  color: var(--color-text-muted);
+}
+
+.hero-search-input input {
+  border: none;
+  background: transparent;
+  font-size: var(--font-body-sm);
+  width: 100%;
+  color: var(--color-text-primary);
+}
+
+.hero-search-input input:focus {
+  outline: none;
+}
+
+.hero-search-btn {
+  padding: 12px 24px;
+}
+
+/* Quick Cuisine Chips */
+.hero-quick-tags {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+}
+
+.quick-tag {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-caption);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-tag:hover {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-color: var(--color-primary);
+}
+
+/* Hero Visual Banner */
+.hero-visual {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-image-container {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(255, 107, 53, 0.18);
+  border: 6px solid var(--color-surface);
+  transition: var(--transition-theme);
+}
+
+.hero-image-container img {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+}
+
+/* Floating Stats Badges on Hero */
+.hero-float-card {
+  position: absolute;
+  background: var(--color-surface);
+  backdrop-filter: blur(8px);
+  padding: 12px 18px;
+  border-radius: 14px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  z-index: 3;
+  border: 1px solid var(--color-border);
+  animation: floatAnim 4s ease-in-out infinite alternate;
+  transition: var(--transition-theme);
+}
+
+.hero-float-card.top-left {
+  top: 20px;
+  left: -20px;
+}
+
+.hero-float-card.bottom-right {
+  bottom: 20px;
+  right: -20px;
+  animation-delay: 2s;
+}
+
+@keyframes floatAnim {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-8px); }
+}
+
+.float-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.float-text h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.float-text p {
+  font-size: 11px;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   2. CUISINE CATEGORIES SECTION
+   -------------------------------------------------------------------------- */
+.categories-section {
+  padding: var(--space-12) 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: var(--space-8);
+}
+
+.section-title-wrap h2 {
+  font-size: var(--font-h2);
+  margin-bottom: 4px;
+}
+
+.section-title-wrap p {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+}
+
+.section-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: var(--font-body-sm);
+  transition: gap var(--transition-fast);
+}
+
+.section-action-link:hover {
+  gap: 8px;
+  color: var(--color-primary-dark);
+}
+
+.categories-carousel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  overflow-x: auto;
+  padding-bottom: var(--space-3);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+.categories-carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.categories-carousel::-webkit-scrollbar-thumb {
+  background-color: var(--color-border);
+  border-radius: var(--radius-pill);
+}
+
+/* --------------------------------------------------------------------------
+   3. RESTAURANT GRIDS
+   -------------------------------------------------------------------------- */
+.restaurants-section {
+  padding: var(--space-10) 0;
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-6);
+}
+
+/* --------------------------------------------------------------------------
+   4. VALUE PROPOSITION SECTION
+   -------------------------------------------------------------------------- */
+.features-section {
+  padding: var(--space-16) 0;
+  background-color: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  transition: var(--transition-theme);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+}
+
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-6);
+  background-color: var(--color-surface-soft);
+  border-radius: var(--radius-container);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 107, 53, 0.3);
+}
+
+.feature-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+  font-size: 28px;
+}
+
+.feature-card h3 {
+  font-size: var(--font-h3);
+  margin-bottom: var(--space-2);
+}
+
+.feature-card p {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   5. APP PROMO BANNER SECTION
+   -------------------------------------------------------------------------- */
+.promo-section {
+  padding: var(--space-16) 0;
+}
+
+.promo-banner {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: var(--radius-container);
+  padding: var(--space-12) var(--space-10);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 16px 36px rgba(232, 90, 42, 0.25);
+  position: relative;
+  overflow: hidden;
+}
+
+.promo-banner::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  bottom: -60px;
+  width: 260px;
+  height: 260px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.promo-content {
+  max-width: 540px;
+}
+
+.promo-content h2 {
+  color: #FFFFFF;
+  font-size: var(--font-h1);
+  margin-bottom: var(--space-3);
+}
+
+.promo-content p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: var(--font-body-lg);
+  margin-bottom: var(--space-6);
+}
+
+.promo-actions {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.promo-btn {
+  background: #FFFFFF;
+  color: #E85A2A;
+  font-weight: 700;
+  padding: 12px 24px;
+  border-radius: var(--radius-btn);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+}
+
+.promo-btn:hover {
+  background: #FFF1EB;
+  transform: translateY(-2px);
+}
+
+/* --------------------------------------------------------------------------
+   6. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .restaurant-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+
+  .hero-visual {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .hero-search-box {
+    flex-direction: column;
+    padding: var(--space-3);
+  }
+
+  .hero-loc-input {
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-2);
+    width: 100%;
+  }
+
+  .hero-search-input {
+    padding: var(--space-2) 0;
+    width: 100%;
+  }
+
+  .hero-search-btn {
+    width: 100%;
+  }
+
+  .restaurant-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .promo-banner {
+    padding: var(--space-8) var(--space-6);
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .promo-actions {
+    justify-content: center;
+  }
+}

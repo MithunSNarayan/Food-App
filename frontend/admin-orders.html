@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Real-time kitchen fulfillment board and order dispatching for FoodApp restaurant partners." />
+    <title>Live Kitchen Board & Orders — FoodApp Admin</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/admin-orders.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="admin-body">
+    <div class="admin-layout-wrapper">
+      <!-- Admin Sidebar -->
+      <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+      <!-- Main Admin View Area -->
+      <div class="admin-main">
+        <!-- Admin Topbar -->
+        <header class="admin-topbar" id="adminTopbar"></header>
+
+        <!-- Admin Content Area -->
+        <main class="admin-content-area">
+          <!-- Page Header & View Toggle -->
+          <div class="flex items-center justify-between" style="margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h1 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Live Kitchen Board & Orders</h1>
+              <p style="font-size: 13.5px; color: #64748B;">Real-time kitchen tickets, dispatch, and order lifecycle pipeline</p>
+            </div>
+
+            <div class="view-switcher-group">
+              <button type="button" class="view-switch-btn active" onclick="AdminOrders.switchView('kanban', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"></rect><rect x="14" y="3" width="7" height="18" rx="1"></rect></svg>
+                <span>Kanban Board</span>
+              </button>
+              <button type="button" class="view-switch-btn" onclick="AdminOrders.switchView('list', this)">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+                <span>List Table</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 1. KANBAN BOARD VIEW -->
+          <div class="kanban-board-grid" id="kanbanGrid">
+            <!-- Column 1: Pending -->
+            <div class="kanban-column">
+              <div class="kanban-column-header">
+                <div class="kanban-title-wrap">
+                  <span style="color: var(--color-primary);">⏳</span>
+                  <h3>New Orders</h3>
+                </div>
+                <span class="kanban-count-badge" id="countPending">0</span>
+              </div>
+              <div class="kanban-column-cards" id="kanbanPendingCards"></div>
+            </div>
+
+            <!-- Column 2: Kitchen Preparing -->
+            <div class="kanban-column">
+              <div class="kanban-column-header">
+                <div class="kanban-title-wrap">
+                  <span>🍳</span>
+                  <h3>Cooking / Prep</h3>
+                </div>
+                <span class="kanban-count-badge" id="countPrep">0</span>
+              </div>
+              <div class="kanban-column-cards" id="kanbanPrepCards"></div>
+            </div>
+
+            <!-- Column 3: Out for Delivery -->
+            <div class="kanban-column">
+              <div class="kanban-column-header">
+                <div class="kanban-title-wrap">
+                  <span>🛵</span>
+                  <h3>With Delivery Rider</h3>
+                </div>
+                <span class="kanban-count-badge" id="countOut">0</span>
+              </div>
+              <div class="kanban-column-cards" id="kanbanOutCards"></div>
+            </div>
+
+            <!-- Column 4: Completed -->
+            <div class="kanban-column">
+              <div class="kanban-column-header">
+                <div class="kanban-title-wrap">
+                  <span style="color: #16A34A;">✓</span>
+                  <h3>Delivered Today</h3>
+                </div>
+                <span class="kanban-count-badge" id="countDel">0</span>
+              </div>
+              <div class="kanban-column-cards" id="kanbanDelCards"></div>
+            </div>
+          </div>
+
+          <!-- 2. LIST VIEW TABLE -->
+          <div class="orders-list-view-container" id="ordersListView">
+            <div class="admin-card" style="padding: 0; overflow: hidden;">
+              <div class="table-responsive">
+                <table class="admin-table">
+                  <thead>
+                    <tr>
+                      <th>Order #</th>
+                      <th>Customer Info</th>
+                      <th>Dishes</th>
+                      <th>Total</th>
+                      <th>Payment</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ordersListTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- KOT Ticket Modal -->
+    <div class="modal-overlay" id="kotModal" onclick="AdminOrders.closeModal()">
+      <div class="modal-card" style="max-width: 500px;" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="AdminOrders.closeModal()">✕</button>
+        <div id="kotSlipContent"></div>
+      </div>
+    </div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/admin-orders.js"></script>
+  </body>
+</html>

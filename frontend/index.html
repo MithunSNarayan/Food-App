@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="FoodApp — Order delicious food online from top restaurants near you. Fast delivery, fresh ingredients, and wide range of cuisines." />
+    <title>FoodApp — Modern Food Delivery</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets (Pure CSS & Design Tokens) -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/home.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Dynamic Header / Navbar -->
+    <div id="navbarPlaceholder"></div>
+
+    <!-- Main Page Content -->
+    <main>
+      <!-- 1. HERO SECTION -->
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-grid">
+            <div class="hero-content">
+              <div class="hero-badge">
+                <span>🚀</span> Fastest Delivery in Town (Avg. 25 mins)
+              </div>
+              
+              <h1 class="hero-title">
+                Craving delicious food? <br />
+                We've got <span class="highlight">you covered.</span>
+              </h1>
+
+              <p class="hero-subtitle">
+                Discover mouth-watering dishes from top-rated local restaurants delivered fresh to your doorstep.
+              </p>
+
+              <!-- Hero Location & Search Box -->
+              <div class="hero-search-box">
+                <div class="hero-loc-input">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                  <input type="text" value="BTM Layout, BLR" title="Delivery Address" readonly>
+                </div>
+                <div class="hero-search-input">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                  <input type="text" id="heroSearchInput" placeholder="Search for Biryani, Pizza, Burger...">
+                </div>
+                <button class="btn btn-primary hero-search-btn" id="heroSearchBtn">
+                  Find Food
+                </button>
+              </div>
+
+              <!-- Quick Cuisine Tags -->
+              <div class="hero-quick-tags">
+                <span style="font-weight: 600;">Trending:</span>
+                <span class="quick-tag" onclick="App.onFilterCategory('biryani')">Biryani 🍚</span>
+                <span class="quick-tag" onclick="App.onFilterCategory('pizza')">Artisan Pizza 🍕</span>
+                <span class="quick-tag" onclick="App.onFilterCategory('burgers')">Burgers 🍔</span>
+                <span class="quick-tag" onclick="App.onFilterCategory('desserts')">Desserts 🍰</span>
+              </div>
+            </div>
+
+            <!-- Hero Visual Illustration -->
+            <div class="hero-visual">
+              <div class="hero-image-container">
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Delicious Food Feast">
+              </div>
+
+              <!-- Floating Stats Badges -->
+              <div class="hero-float-card top-left">
+                <div class="float-icon">🔥</div>
+                <div class="float-text">
+                  <h5>500+ Dishes</h5>
+                  <p>Freshly prepared daily</p>
+                </div>
+              </div>
+
+              <div class="hero-float-card bottom-right">
+                <div class="float-icon">⭐</div>
+                <div class="float-text">
+                  <h5>4.8 Rating</h5>
+                  <p>From 10,000+ Foodies</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. CUISINE CATEGORIES SECTION -->
+      <section class="categories-section">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Popular Cuisines</h2>
+              <p>Explore by your favourite food type</p>
+            </div>
+            <a href="#restaurants" class="section-action-link" onclick="App.onFilterCategory('all')">
+              <span>View all cuisines</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <!-- Dynamic Carousel Container -->
+          <div class="categories-carousel" id="categoriesCarousel"></div>
+        </div>
+      </section>
+
+      <!-- 3. TOP RATED RESTAURANTS SECTION -->
+      <section class="restaurants-section" id="restaurantsSection">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Top Rated Near You</h2>
+              <p>Handpicked spots with the highest customer ratings</p>
+            </div>
+            <a href="#restaurants" class="section-action-link">
+              <span>Explore all restaurants</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <!-- Dynamic Grid Container -->
+          <div class="restaurant-grid" id="topRatedGrid"></div>
+        </div>
+      </section>
+
+      <!-- 4. FASTEST DELIVERY SECTION -->
+      <section class="restaurants-section" style="background-color: var(--color-surface-soft); padding: var(--space-12) 0;">
+        <div class="container">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>⚡ Super Fast Delivery (Under 25 mins)</h2>
+              <p>Hot and fresh meals ready at express speed</p>
+            </div>
+            <a href="#restaurants" class="section-action-link">
+              <span>See more</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <!-- Dynamic Fast Delivery Container -->
+          <div class="restaurant-grid" id="fastDeliveryGrid"></div>
+        </div>
+      </section>
+
+      <!-- 5. VALUE PROPOSITIONS & FEATURES -->
+      <section class="features-section">
+        <div class="container">
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon-wrap">🚀</div>
+              <h3>Superfast Delivery</h3>
+              <p>Our dedicated delivery fleet ensures your food reaches you piping hot and fresh.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrap">🛡️</div>
+              <h3>100% Hygienic Packing</h3>
+              <p>Tamper-proof safety seals and strict hygiene standards across all restaurant partners.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrap">📍</div>
+              <h3>Live Order Tracking</h3>
+              <p>Know exactly where your order is at every step from the kitchen to your table.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. PROMOTIONAL CALLOUT -->
+      <section class="promo-section">
+        <div class="container">
+          <div class="promo-banner">
+            <div class="promo-content">
+              <h2>Get 50% OFF On Your First 3 Orders!</h2>
+              <p>Use coupon code <strong>WELCOME50</strong> at checkout. No minimum order required.</p>
+              <div class="promo-actions">
+                <button class="btn promo-btn" onclick="UIComponents.showToast('Coupon WELCOME50 copied!', 'success')">
+                  Copy Coupon: WELCOME50
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footerPlaceholder"></div>
+
+    <!-- Pure Vanilla JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

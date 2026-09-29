@@ -1,0 +1,289 @@
+/* ==========================================================================
+   FoodApp - Authentication Pages (Login & Register) Styles
+   Only HTML, CSS, JavaScript
+   Light & Dark Mode Adaptive
+   ========================================================================== */
+
+.auth-page-wrapper {
+  min-height: calc(100vh - var(--header-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-10) var(--space-4);
+  background: linear-gradient(180deg, var(--color-primary-soft) 0%, var(--color-bg) 60%);
+  transition: var(--transition-theme);
+}
+
+.auth-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-container);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 480px;
+  padding: var(--space-8);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-theme);
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-dark));
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: var(--space-6);
+}
+
+.auth-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+  text-decoration: none;
+}
+
+.auth-logo .logo-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--color-primary);
+  color: #FFFFFF;
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-header h1 {
+  font-size: var(--font-h3);
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 4px;
+}
+
+.auth-header p {
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+}
+
+/* Role Selector Tabs (Customer vs Partner) */
+.role-tabs-container {
+  display: flex;
+  background-color: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  padding: 4px;
+  margin-bottom: var(--space-6);
+  gap: 4px;
+}
+
+.role-tab-btn {
+  flex: 1;
+  padding: 8px;
+  text-align: center;
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-radius: 8px;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.role-tab-btn.active {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Form Styles */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: var(--font-body-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form-label .required-star {
+  color: var(--color-error);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon .input-icon-left {
+  position: absolute;
+  left: 14px;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.form-input {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px 0 42px;
+  background-color: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  font-size: var(--font-body-sm);
+  color: var(--color-text-primary);
+  transition: all var(--transition-fast);
+  outline: none;
+}
+
+.form-input:focus {
+  background-color: var(--color-surface);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
+.form-input.input-error {
+  border-color: var(--color-error);
+  background-color: var(--color-error-soft);
+}
+
+.input-icon-toggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-icon-toggle:hover {
+  color: var(--color-text-primary);
+}
+
+.field-error-message {
+  font-size: var(--font-caption);
+  color: var(--color-error);
+  font-weight: 500;
+  display: none;
+}
+
+.field-error-message.visible {
+  display: block;
+}
+
+/* Row with Checkbox & Forgot Password */
+.form-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-caption);
+  color: var(--color-text-secondary);
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+}
+
+.checkbox-label input[type="checkbox"] {
+  accent-color: var(--color-primary);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.forgot-password-link {
+  color: var(--color-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
+}
+
+/* Submit Button */
+.btn-auth-submit {
+  width: 100%;
+  height: 48px;
+  font-size: var(--font-body);
+  border-radius: var(--radius-btn);
+  font-weight: 700;
+  margin-top: var(--space-2);
+}
+
+/* Switch Auth Link */
+.auth-switch-text {
+  text-align: center;
+  font-size: var(--font-body-sm);
+  color: var(--color-text-secondary);
+  margin-top: var(--space-6);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.auth-switch-text a {
+  color: var(--color-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.auth-switch-text a:hover {
+  text-decoration: underline;
+}
+
+/* Quick Demo Credentials Box */
+.demo-credentials-box {
+  background-color: var(--color-info-soft);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-btn);
+  padding: 10px 14px;
+  font-size: 12px;
+  color: var(--color-info);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.demo-credentials-box code {
+  font-weight: 700;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}

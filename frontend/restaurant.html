@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Explore delicious dishes, customize your meal, and order online with fast delivery." />
+    <title>Restaurant Menu — FoodApp</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/restaurant.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Dynamic Header / Navbar -->
+    <div id="navbarPlaceholder"></div>
+
+    <!-- Main Page Content -->
+    <main>
+      <div class="container">
+        <!-- 1. BREADCRUMB NAVIGATION -->
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+          <ul class="breadcrumb-list">
+            <li><a href="index.html">Home</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li><a href="restaurants.html">Restaurants</a></li>
+            <li class="breadcrumb-separator">/</li>
+            <li class="breadcrumb-current" id="breadcrumbRestoName">Restaurant Menu</li>
+          </ul>
+        </nav>
+
+        <!-- 2. RESTAURANT HERO HEADER CARD -->
+        <section class="restaurant-hero-card" id="restaurantHero"></section>
+
+        <!-- 3. MENU CONTROLS (VEG TOGGLE + DISH SEARCH) -->
+        <div class="menu-controls-bar">
+          <div class="veg-toggle-wrapper" id="vegToggleWrapper" onclick="RestaurantDetail.toggleVegOnly()">
+            <div class="veg-toggle-switch"></div>
+            <span>Pure Veg Only 🟢</span>
+          </div>
+
+          <div class="search-input-wrapper menu-search-input">
+            <span class="search-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+            </span>
+            <input type="text" id="menuSearchInput" placeholder="Search dish in menu..." aria-label="Search dishes in menu">
+          </div>
+        </div>
+
+        <!-- 4. STICKY CATEGORY TABS -->
+        <nav class="category-tabs-nav" id="categoryTabs" aria-label="Menu categories"></nav>
+
+        <!-- 5. MENU CATALOG BY CATEGORY -->
+        <div id="menuCatalog"></div>
+      </div>
+    </main>
+
+    <!-- 6. STICKY FLOATING CART BAR -->
+    <div class="floating-cart-bar" id="floatingCartBar">
+      <div class="cart-bar-left">
+        <span class="cart-bar-count" id="cartBarCount">0 Items</span>
+        <div class="cart-bar-divider"></div>
+        <span class="cart-bar-total" id="cartBarTotal">₹0</span>
+      </div>
+
+      <a href="cart.html" class="cart-bar-btn" id="cartBarCheckoutBtn">
+        <span>View Cart</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+      </a>
+    </div>
+
+    <!-- Dynamic Footer -->
+    <div id="footerPlaceholder"></div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/restaurant.js"></script>
+  </body>
+</html>

@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Manage FoodApp menu items, categories, dish pricing, and stock availability." />
+    <title>Menu Catalog Management — FoodApp Admin</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="admin-body">
+    <div class="admin-layout-wrapper">
+      <!-- Admin Sidebar -->
+      <aside class="admin-sidebar" id="adminSidebar"></aside>
+
+      <!-- Main Admin View Area -->
+      <div class="admin-main">
+        <!-- Admin Topbar -->
+        <header class="admin-topbar" id="adminTopbar"></header>
+
+        <!-- Admin Content Area -->
+        <main class="admin-content-area">
+          <!-- Page Header -->
+          <div class="flex items-center justify-between" style="margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
+            <div>
+              <h1 style="font-size: 24px; font-weight: 800; color: #0F172A; margin-bottom: 4px;">Menu Catalog Management</h1>
+              <p style="font-size: 13.5px; color: #64748B;" id="dishCountText">Manage dishes, pricing, dietary types, and stock inventory</p>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="AdminMenu.openAddModal()" style="box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);">
+              <span>+</span> Add New Dish
+            </button>
+          </div>
+
+          <!-- Filters & Toolbar Card -->
+          <div class="admin-card" style="padding: 18px 20px; margin-bottom: 20px;">
+            <div class="flex items-center justify-between" style="flex-wrap: wrap; gap: 16px;">
+              <!-- Restaurant Selector -->
+              <div class="flex items-center gap-3">
+                <label style="font-size: 12px; font-weight: 700; color: #64748B; text-transform: uppercase;">Outlet:</label>
+                <select id="menuRestoSelect" class="saas-input" style="width: 240px; height: 42px; font-weight: 700; cursor: pointer;" onchange="AdminMenu.changeRestaurant(this.value)"></select>
+              </div>
+
+              <!-- Search & Diet Filters -->
+              <div class="flex items-center gap-3" style="flex-wrap: wrap;">
+                <div style="position: relative; min-width: 240px;">
+                  <input type="text" id="dishSearchInput" class="saas-input" placeholder="Search dish by name..." style="padding-left: 36px; height: 42px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="2" style="position: absolute; left: 12px; top: 13px; pointer-events: none;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </div>
+
+                <select id="dishDietFilter" class="saas-input" style="width: 140px; height: 42px; cursor: pointer;">
+                  <option value="ALL">All Diets</option>
+                  <option value="VEG">Pure Veg</option>
+                  <option value="NON_VEG">Non-Veg</option>
+                </select>
+
+                <select id="dishStockFilter" class="saas-input" style="width: 140px; height: 42px; cursor: pointer;">
+                  <option value="ALL">All Stock</option>
+                  <option value="IN_STOCK">In Stock</option>
+                  <option value="OUT_OF_STOCK">Out of Stock</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Menu Items Table Card -->
+          <div class="admin-card" style="padding: 0; overflow: hidden;">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Dish Details</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Diet Type</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="menuTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Add / Edit Dish Modal -->
+    <div class="modal-overlay" id="dishModal" onclick="AdminMenu.closeModal()">
+      <div class="modal-card" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="AdminMenu.closeModal()" aria-label="Close modal">✕</button>
+
+        <div class="modal-header-box">
+          <h3 id="dishModalTitle">Add New Dish to Catalog</h3>
+          <p>Configure dish pricing, category assignment, and stock status</p>
+        </div>
+
+        <form id="dishForm" onsubmit="AdminMenu.saveDish(event)">
+          <input type="hidden" id="formDishId">
+
+          <div class="modal-form-grid">
+            <!-- Dish Name -->
+            <div class="full-col">
+              <label class="saas-label" for="formDishName">Dish / Item Name *</label>
+              <input type="text" id="formDishName" class="saas-input" placeholder="e.g. Butter Chicken Special" required>
+            </div>
+
+            <!-- Restaurant Selection -->
+            <div>
+              <label class="saas-label" for="formDishRestaurant">Restaurant Outlet *</label>
+              <select id="formDishRestaurant" class="saas-input" required></select>
+            </div>
+
+            <!-- Category -->
+            <div>
+              <label class="saas-label" for="formDishCategory">Category *</label>
+              <input type="text" id="formDishCategory" class="saas-input" placeholder="e.g. Biryani, Starters, Drinks" required>
+            </div>
+
+            <!-- Price -->
+            <div>
+              <label class="saas-label" for="formDishPrice">Price (₹ INR) *</label>
+              <input type="number" id="formDishPrice" class="saas-input" placeholder="299" min="1" step="1" required>
+            </div>
+
+            <!-- Image URL -->
+            <div>
+              <label class="saas-label" for="formDishImage">Dish Photo URL</label>
+              <input type="url" id="formDishImage" class="saas-input" placeholder="https://images.unsplash.com/...">
+            </div>
+
+            <!-- Description -->
+            <div class="full-col">
+              <label class="saas-label" for="formDishDescription">Short Description</label>
+              <input type="text" id="formDishDescription" class="saas-input" placeholder="e.g. Tender chicken pieces cooked in rich cashew gravy and spices.">
+            </div>
+          </div>
+
+          <!-- Veg / Non-Veg Checkbox -->
+          <label class="modal-toggle-row" style="margin-bottom: 12px;">
+            <span class="switch-control">
+              <input type="checkbox" id="formDishIsVeg">
+              <span class="slider-round"></span>
+            </span>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A;">Pure Vegetarian Dish</div>
+              <div style="font-size: 12px; color: #64748B;">Mark if this dish is 100% vegetarian (displays green veg badge).</div>
+            </div>
+          </label>
+
+          <!-- In-Stock Checkbox -->
+          <label class="modal-toggle-row">
+            <span class="switch-control">
+              <input type="checkbox" id="formDishIsAvailable" checked>
+              <span class="slider-round"></span>
+            </span>
+            <div>
+              <div style="font-size: 13.5px; font-weight: 700; color: #0F172A;">In Stock & Available</div>
+              <div style="font-size: 12px; color: #64748B;">When enabled, customers can immediately order this dish.</div>
+            </div>
+          </label>
+
+          <!-- Footer Actions -->
+          <div class="modal-footer-actions">
+            <button type="button" class="btn btn-outline" onclick="AdminMenu.closeModal()">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="box-shadow: 0 4px 14px rgba(255, 107, 53, 0.35);">
+              Save Dish
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/admin-menu.js"></script>
+  </body>
+</html>

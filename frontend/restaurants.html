@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Browse and order from top rated restaurants in your area. Fast delivery, fresh food, and great deals." />
+    <title>All Restaurants — FoodApp</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/restaurants.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Dynamic Header / Navbar -->
+    <div id="navbarPlaceholder"></div>
+
+    <!-- Main Page Content -->
+    <main>
+      <!-- 1. PAGE HEADER & QUICK FILTER CHIPS -->
+      <section class="listing-header-section">
+        <div class="container">
+          <div class="listing-header-top">
+            <div class="listing-title-group">
+              <h1>Restaurants in Bengaluru</h1>
+              <p id="resultsCount">Showing 6 restaurants near you</p>
+            </div>
+
+            <!-- Sort Dropdown -->
+            <div class="listing-sort-wrapper">
+              <span class="sort-label">Sort by:</span>
+              <select class="sort-select" id="sortSelect" aria-label="Sort restaurants">
+                <option value="recommended">Recommended</option>
+                <option value="rating">Rating: High to Low</option>
+                <option value="delivery">Delivery Time: Fastest</option>
+                <option value="cost_asc">Cost: Low to High</option>
+                <option value="cost_desc">Cost: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Quick Filter Chips -->
+          <div class="quick-filters-row">
+            <button class="quick-filter-chip" id="chipRating" onclick="RestaurantListing.setRatingFilter(4.0)">
+              <span>⭐</span> Rating 4.0+
+            </button>
+            <button class="quick-filter-chip" id="chipFastDelivery" onclick="RestaurantListing.setDeliveryTimeFilter(25)">
+              <span>⚡</span> Under 25 mins
+            </button>
+            <button class="quick-filter-chip" id="chipOffers" onclick="RestaurantListing.toggleOffersOnly()">
+              <span>🏷️</span> Great Offers
+            </button>
+            <button class="quick-filter-chip" onclick="RestaurantListing.resetFilters()">
+              <span>🔄</span> Reset All
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. MAIN LISTING CONTENT (SIDEBAR + GRID) -->
+      <section class="listing-main-section">
+        <div class="container">
+          <div class="listing-layout">
+            <!-- Left Filter Sidebar (Desktop) -->
+            <aside class="filter-sidebar">
+              <div class="filter-sidebar-header">
+                <h3>Filters</h3>
+                <button class="clear-filters-btn" onclick="RestaurantListing.resetFilters()">Clear All</button>
+              </div>
+
+              <!-- Filter 1: Cuisines -->
+              <div class="filter-group">
+                <h4 class="filter-group-title">Cuisines</h4>
+                <div class="filter-options-list" id="cuisineFilterList"></div>
+              </div>
+
+              <!-- Filter 2: Rating -->
+              <div class="filter-group">
+                <h4 class="filter-group-title">Customer Rating</h4>
+                <div class="filter-radio-grid">
+                  <div class="filter-radio-chip" data-rating="4.5" onclick="RestaurantListing.setRatingFilter(4.5)">4.5+ ★</div>
+                  <div class="filter-radio-chip" data-rating="4.0" onclick="RestaurantListing.setRatingFilter(4.0)">4.0+ ★</div>
+                  <div class="filter-radio-chip" data-rating="3.5" onclick="RestaurantListing.setRatingFilter(3.5)">3.5+ ★</div>
+                  <div class="filter-radio-chip" data-rating="0" onclick="RestaurantListing.setRatingFilter(0)">Any</div>
+                </div>
+              </div>
+
+              <!-- Filter 3: Delivery Time -->
+              <div class="filter-group">
+                <h4 class="filter-group-title">Delivery Time</h4>
+                <div class="filter-radio-grid">
+                  <div class="filter-radio-chip" data-time="20" onclick="RestaurantListing.setDeliveryTimeFilter(20)">≤ 20 min</div>
+                  <div class="filter-radio-chip" data-time="25" onclick="RestaurantListing.setDeliveryTimeFilter(25)">≤ 25 min</div>
+                  <div class="filter-radio-chip" data-time="35" onclick="RestaurantListing.setDeliveryTimeFilter(35)">≤ 35 min</div>
+                  <div class="filter-radio-chip" data-time="999" onclick="RestaurantListing.setDeliveryTimeFilter(999)">Any</div>
+                </div>
+              </div>
+            </aside>
+
+            <!-- Right Content Area (Restaurant Grid) -->
+            <div class="listing-content">
+              <div class="restaurants-listing-grid" id="restaurantsGrid"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. MOBILE FLOATING ACTION BAR -->
+      <div class="mobile-filter-bar">
+        <button class="mobile-filter-btn primary" onclick="RestaurantListing.toggleMobileDrawer(true)">
+          <span>⚙️</span> Filters & Sort
+        </button>
+        <button class="mobile-filter-btn" onclick="RestaurantListing.resetFilters()">
+          <span>🔄</span> Reset
+        </button>
+      </div>
+
+      <!-- 4. MOBILE FILTER DRAWER BOTTOM SHEET -->
+      <div class="drawer-overlay" id="mobileFilterDrawer" onclick="RestaurantListing.toggleMobileDrawer(false)">
+        <div class="drawer-container" onclick="event.stopPropagation()">
+          <div class="drawer-header">
+            <h3>Filters & Sorting</h3>
+            <button class="btn btn-ghost btn-sm" onclick="RestaurantListing.toggleMobileDrawer(false)">✕ Close</button>
+          </div>
+
+          <div class="drawer-body">
+            <!-- Mobile Sort -->
+            <div class="filter-group">
+              <h4 class="filter-group-title">Sort by</h4>
+              <select class="sort-select w-full" id="drawerSortSelect">
+                <option value="recommended">Recommended</option>
+                <option value="rating">Rating: High to Low</option>
+                <option value="delivery">Delivery Time: Fastest</option>
+                <option value="cost_asc">Cost: Low to High</option>
+                <option value="cost_desc">Cost: High to Low</option>
+              </select>
+            </div>
+
+            <!-- Mobile Cuisines -->
+            <div class="filter-group">
+              <h4 class="filter-group-title">Cuisines</h4>
+              <div class="filter-options-list" id="drawerCuisineList"></div>
+            </div>
+          </div>
+
+          <div class="drawer-footer">
+            <button class="btn btn-outline w-full" onclick="RestaurantListing.resetFilters(); RestaurantListing.toggleMobileDrawer(false);">Reset</button>
+            <button class="btn btn-primary w-full" onclick="RestaurantListing.toggleMobileDrawer(false);">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footerPlaceholder"></div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/restaurants.js"></script>
+  </body>
+</html>

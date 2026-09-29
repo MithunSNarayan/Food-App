@@ -1,0 +1,960 @@
+/* ==========================================================================
+   FoodApp - FoodieBot AI & ChartBot Assistant Styles
+   Modern Luxury Glassmorphism & Micro-animations
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. FLOATING LAUNCHER BUTTON & TOOLTIP
+   -------------------------------------------------------------------------- */
+.foodiebot-launcher {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-family, 'Inter', sans-serif);
+}
+
+.foodiebot-tooltip {
+  background: rgba(26, 26, 26, 0.92);
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  animation: floatTooltip 3s ease-in-out infinite alternate;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  white-space: nowrap;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.foodiebot-tooltip:hover {
+  transform: translateY(-2px);
+  background: #111111;
+}
+
+.foodiebot-tooltip .tooltip-close {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  margin-left: 4px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.foodiebot-tooltip .tooltip-close:hover {
+  color: #FFFFFF;
+}
+
+@keyframes floatTooltip {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-4px); }
+}
+
+.foodiebot-btn-wrap {
+  position: relative;
+}
+
+.foodiebot-btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF6B35 0%, #E85A2A 50%, #D44416 100%);
+  color: #FFFFFF;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(255, 107, 53, 0.45), 0 4px 10px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: visible;
+}
+
+.foodiebot-btn:hover {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: 0 12px 32px rgba(255, 107, 53, 0.6), 0 6px 14px rgba(0, 0, 0, 0.2);
+}
+
+.foodiebot-btn:active {
+  transform: scale(0.95);
+}
+
+.foodiebot-btn-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.foodiebot-btn.open .foodiebot-btn-icon {
+  transform: rotate(90deg);
+}
+
+/* Pulsing Ring Effect */
+.foodiebot-pulse {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  border-radius: 50%;
+  border: 2px solid #FF6B35;
+  animation: pulseRadar 2.4s infinite;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@keyframes pulseRadar {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 0; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.foodiebot-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background: #2E8B57;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* --------------------------------------------------------------------------
+   2. CHATBOT WINDOW CONTAINER
+   -------------------------------------------------------------------------- */
+.foodiebot-window {
+  position: fixed;
+  bottom: 100px;
+  right: 28px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  height: 620px;
+  max-height: calc(100vh - 120px);
+  background: #FFFFFF;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18), 0 4px 20px rgba(255, 107, 53, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 9998;
+  overflow: hidden;
+  border: 1px solid rgba(232, 232, 229, 0.9);
+  font-family: var(--font-family, 'Inter', sans-serif);
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.foodiebot-window.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+/* --------------------------------------------------------------------------
+   3. CHATBOT HEADER
+   -------------------------------------------------------------------------- */
+.foodiebot-header {
+  background: linear-gradient(135deg, #1E1E24 0%, #2A2A32 100%);
+  color: #FFFFFF;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.foodiebot-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.foodiebot-avatar-wrap {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF6B35, #E85A2A);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.35);
+  font-size: 22px;
+}
+
+.foodiebot-status-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background: #10B981;
+  border-radius: 50%;
+  border: 2px solid #1E1E24;
+  box-shadow: 0 0 6px #10B981;
+}
+
+.foodiebot-titles h4 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.foodiebot-badge-ai {
+  font-size: 10px;
+  font-weight: 800;
+  background: rgba(255, 107, 53, 0.25);
+  color: #FF8F6B;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 107, 53, 0.4);
+}
+
+.foodiebot-titles p {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 2px 0 0 0;
+}
+
+.foodiebot-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.foodiebot-action-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-action-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+/* --------------------------------------------------------------------------
+   4. CHAT MESSAGES BODY
+   -------------------------------------------------------------------------- */
+.foodiebot-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: #FBFBFA;
+  scroll-behavior: smooth;
+}
+
+.foodiebot-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.foodiebot-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.foodiebot-body::-webkit-scrollbar-thumb {
+  background: #E2E2DF;
+  border-radius: 4px;
+}
+
+.foodiebot-msg-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: fadeInMsg 0.28s ease-out;
+}
+
+@keyframes fadeInMsg {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.foodiebot-msg-row.user {
+  flex-direction: row-reverse;
+}
+
+.foodiebot-msg-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #FF6B35;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(255, 107, 53, 0.25);
+}
+
+.foodiebot-msg-row.user .foodiebot-msg-avatar {
+  background: #2A2A32;
+}
+
+.foodiebot-msg-content {
+  max-width: 82%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.foodiebot-msg-bubble {
+  padding: 11px 14px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.48;
+  color: #1F1F1F;
+  background: #FFFFFF;
+  border: 1px solid #ECECE8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  word-break: break-word;
+}
+
+.foodiebot-msg-row.user .foodiebot-msg-bubble {
+  background: linear-gradient(135deg, #FF6B35, #E85A2A);
+  color: #FFFFFF;
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.25);
+}
+
+.foodiebot-msg-time {
+  font-size: 10.5px;
+  color: #9E9E98;
+  margin-top: 2px;
+}
+
+.foodiebot-msg-row.user .foodiebot-msg-time {
+  text-align: right;
+}
+
+/* --------------------------------------------------------------------------
+   5. TYPING INDICATOR
+   -------------------------------------------------------------------------- */
+.foodiebot-typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-radius: 14px;
+  border: 1px solid #ECECE8;
+  width: fit-content;
+}
+
+.foodiebot-typing-dot {
+  width: 7px;
+  height: 7px;
+  background: #FF6B35;
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.foodiebot-typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.foodiebot-typing-dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   6. QUICK SUGGESTION CHIPS (CAROUSEL & WRAP)
+   -------------------------------------------------------------------------- */
+.foodiebot-quick-chips-wrap {
+  padding: 10px 16px;
+  background: #FFFFFF;
+  border-top: 1px solid #F0F0EC;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.foodiebot-quick-chips-wrap::-webkit-scrollbar {
+  height: 0px;
+}
+
+.foodiebot-chip {
+  background: #F4F4F0;
+  border: 1px solid #E5E5E0;
+  color: #333333;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.foodiebot-chip:hover {
+  background: #FFF0EB;
+  border-color: #FFC5B2;
+  color: #E85A2A;
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   7. INPUT BAR & CONTROLS
+   -------------------------------------------------------------------------- */
+.foodiebot-footer {
+  padding: 12px 16px;
+  background: #FFFFFF;
+  border-top: 1px solid #EDEDE9;
+}
+
+.foodiebot-input-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #F6F6F3;
+  border-radius: 12px;
+  padding: 4px 6px 4px 14px;
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-input-form:focus-within {
+  background: #FFFFFF;
+  border-color: #FF6B35;
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.12);
+}
+
+.foodiebot-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 13.5px;
+  color: #1F1F1F;
+  outline: none;
+  font-family: inherit;
+  padding: 6px 0;
+}
+
+.foodiebot-input::placeholder {
+  color: #9E9E98;
+}
+
+.foodiebot-send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #FF6B35;
+  color: #FFFFFF;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-send-btn:hover {
+  background: #E85A2A;
+  transform: scale(1.05);
+}
+
+.foodiebot-send-btn:active {
+  transform: scale(0.95);
+}
+
+/* --------------------------------------------------------------------------
+   8. RICH BOT CARDS (DISHES, RESTAURANTS, ORDERS, COUPONS, CHARTS)
+   -------------------------------------------------------------------------- */
+/* Dish Card */
+.foodiebot-dish-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAE5;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  margin-top: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.foodiebot-dish-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.foodiebot-dish-img {
+  width: 90px;
+  min-height: 90px;
+  object-fit: cover;
+}
+
+.foodiebot-dish-info {
+  padding: 10px 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.foodiebot-dish-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.foodiebot-dish-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1F1F1F;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.foodiebot-veg-badge {
+  font-size: 11px;
+}
+
+.foodiebot-dish-resto {
+  font-size: 11px;
+  color: #757570;
+  margin: 2px 0 6px 0;
+}
+
+.foodiebot-dish-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foodiebot-dish-price {
+  font-size: 14px;
+  font-weight: 800;
+  color: #FF6B35;
+}
+
+.foodiebot-add-cart-btn {
+  background: #FF6B35;
+  color: #FFFFFF;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-add-cart-btn:hover {
+  background: #E85A2A;
+  transform: scale(1.04);
+}
+
+.foodiebot-add-cart-btn.added {
+  background: #2E8B57;
+}
+
+/* Restaurant Card */
+.foodiebot-resto-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAE5;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-resto-card:hover {
+  border-color: #FF6B35;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.foodiebot-resto-img {
+  width: 100%;
+  height: 90px;
+  object-fit: cover;
+}
+
+.foodiebot-resto-body {
+  padding: 10px;
+}
+
+.foodiebot-resto-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1F1F1F;
+  margin: 0;
+}
+
+.foodiebot-resto-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  margin-top: 4px;
+  color: #666660;
+}
+
+.foodiebot-resto-rating {
+  color: #FFFFFF;
+  background: #2E8B57;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+}
+
+/* Live Order Card */
+.foodiebot-order-card {
+  background: #FFFFFF;
+  border: 1px solid #E5E5DE;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.foodiebot-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #E5E5DE;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
+.foodiebot-order-id {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1F1F1F;
+}
+
+.foodiebot-order-status-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #FFF1EB;
+  color: #FF6B35;
+}
+
+.foodiebot-order-status-badge.delivered {
+  background: #EAF7EF;
+  color: #2E8B57;
+}
+
+.foodiebot-order-progress-bar {
+  height: 6px;
+  background: #ECECE8;
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.foodiebot-order-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #2E8B57);
+  border-radius: 999px;
+  transition: width 0.5s ease;
+}
+
+.foodiebot-order-track-btn {
+  display: block;
+  text-align: center;
+  background: #1F1F1F;
+  color: #FFFFFF;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 7px;
+  border-radius: 8px;
+  margin-top: 8px;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-order-track-btn:hover {
+  background: #FF6B35;
+}
+
+/* Coupon Card */
+.foodiebot-coupon-card {
+  background: #FFFBF7;
+  border: 1.5px dashed #FFC5B2;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foodiebot-coupon-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.foodiebot-coupon-code {
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 13px;
+  color: #E85A2A;
+  letter-spacing: 0.5px;
+}
+
+.foodiebot-coupon-desc {
+  font-size: 11px;
+  color: #666660;
+}
+
+.foodiebot-coupon-copy-btn {
+  background: #FF6B35;
+  color: #FFFFFF;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.foodiebot-coupon-copy-btn:hover {
+  background: #E85A2A;
+}
+
+/* --------------------------------------------------------------------------
+   9. INTERACTIVE FOOD CHARTS (CHARTBOT VISUALS)
+   -------------------------------------------------------------------------- */
+.foodiebot-chart-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAE5;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.foodiebot-chart-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1F1F1F;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.foodiebot-chart-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.foodiebot-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.foodiebot-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 600;
+  color: #444440;
+}
+
+.foodiebot-bar-track {
+  height: 8px;
+  background: #F0F0EB;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.foodiebot-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Macro Nutrients Ring Chart */
+.foodiebot-macro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.foodiebot-macro-item {
+  background: #F9F9F6;
+  border-radius: 8px;
+  padding: 8px 4px;
+}
+
+.foodiebot-macro-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #FF6B35;
+}
+
+.foodiebot-macro-label {
+  font-size: 10px;
+  color: #777770;
+  margin-top: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   10. DARK THEME ADAPTATIONS
+   -------------------------------------------------------------------------- */
+[data-theme="dark"] .foodiebot-window {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .foodiebot-body {
+  background: var(--color-bg);
+}
+
+[data-theme="dark"] .foodiebot-body::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-msg-bubble {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-typing-indicator {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-quick-chips-wrap {
+  background: var(--color-surface);
+  border-top-color: var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-chip {
+  background: var(--color-surface-soft);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .foodiebot-chip:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+[data-theme="dark"] .foodiebot-footer {
+  background: var(--color-surface);
+  border-top-color: var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-input {
+  background: var(--color-surface-soft);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .foodiebot-input:focus {
+  background: var(--color-surface);
+  border-color: var(--color-primary);
+}
+
+[data-theme="dark"] .foodiebot-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .foodiebot-card-title {
+  color: var(--color-text-primary);
+}
+
+[data-theme="dark"] .foodiebot-card-desc {
+  color: var(--color-text-secondary);
+}
+
+[data-theme="dark"] .foodiebot-macro-item {
+  background: var(--color-surface-soft);
+  border: 1px solid var(--color-border);
+}
+
+[data-theme="dark"] .foodiebot-bar-track {
+  background: var(--color-surface-soft);
+}
+
+[data-theme="dark"] .foodiebot-bar-labels {
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   11. RESPONSIVE DESIGN
+   -------------------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .foodiebot-window {
+    right: 12px;
+    left: 12px;
+    bottom: 90px;
+    width: auto;
+    height: 520px;
+    max-height: calc(100vh - 110px);
+  }
+
+  .foodiebot-launcher {
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .foodiebot-tooltip {
+    display: none;
+  }
+}

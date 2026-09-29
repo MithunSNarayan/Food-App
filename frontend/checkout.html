@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Complete your food order securely with fast delivery and flexible payment options." />
+    <title>Secure Checkout — FoodApp</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
+    <link rel="stylesheet" href="css/checkout.css" />
+
+    <!-- Theme Init (Prevent FOUC) -->
+    <script>
+      (function() {
+        try {
+          const saved = localStorage.getItem('foodapp_theme');
+          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = saved === 'dark' || (saved !== 'light' && prefersDark) ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', theme);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Dynamic Header / Navbar -->
+    <div id="navbarPlaceholder"></div>
+
+    <!-- Main Page Content -->
+    <main>
+      <div class="container">
+        <!-- Breadcrumb Navigation -->
+        <nav class="breadcrumb-nav" aria-label="Breadcrumb" style="padding: 16px 0 8px 0;">
+          <ul class="breadcrumb-list" style="display: flex; gap: 8px; list-style: none; font-size: 13px; color: var(--color-text-muted);">
+            <li><a href="index.html">Home</a></li>
+            <li>/</li>
+            <li><a href="cart.html">Cart</a></li>
+            <li>/</li>
+            <li style="color: var(--color-text-primary); font-weight: 600;">Checkout</li>
+          </ul>
+        </nav>
+
+        <!-- Main Checkout Layout -->
+        <section class="checkout-main-section">
+          <div class="checkout-layout">
+            <!-- Left Column: Steps (Address & Payment) -->
+            <div class="checkout-steps-column">
+              <!-- Step 1: Delivery Address -->
+              <div class="checkout-step-card">
+                <div class="step-card-header">
+                  <div class="step-number-badge">1</div>
+                  <h3>Select Delivery Address</h3>
+                </div>
+
+                <div class="address-cards-grid" id="savedAddressesGrid"></div>
+
+                <button type="button" class="btn-add-address" onclick="Checkout.promptNewAddress()">
+                  <span>+</span> Add New Delivery Address
+                </button>
+              </div>
+
+              <!-- Step 2: Payment Method -->
+              <div class="checkout-step-card">
+                <div class="step-card-header">
+                  <div class="step-number-badge">2</div>
+                  <h3>Choose Payment Method</h3>
+                </div>
+
+                <div class="payment-methods-list">
+                  <!-- Payment 1: UPI -->
+                  <div class="payment-method-card selected" onclick="Checkout.selectPaymentMethod('UPI', this)">
+                    <div class="payment-header-row">
+                      <div class="payment-header-left">
+                        <div class="payment-icon-wrap">📱</div>
+                        <div class="payment-title-group">
+                          <h4>Instant UPI (GPay / PhonePe / Paytm / QR)</h4>
+                          <p>Zero extra charges, instant confirmation</p>
+                        </div>
+                      </div>
+                      <div class="payment-radio-circle"></div>
+                    </div>
+
+                    <div class="payment-details-box">
+                      <div class="form-group">
+                        <label class="form-label" style="font-size: 12px;">Enter your UPI VPA ID</label>
+                        <input type="text" class="form-input" style="height: 40px; padding-left: 14px;" value="lokesh@oksbi" placeholder="e.g. yourname@okhdfcbank">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Payment 2: Credit / Debit Card -->
+                  <div class="payment-method-card" onclick="Checkout.selectPaymentMethod('CARD', this)">
+                    <div class="payment-header-row">
+                      <div class="payment-header-left">
+                        <div class="payment-icon-wrap">💳</div>
+                        <div class="payment-title-group">
+                          <h4>Credit / Debit Card</h4>
+                          <p>Visa, MasterCard, RuPay, Maestro</p>
+                        </div>
+                      </div>
+                      <div class="payment-radio-circle"></div>
+                    </div>
+
+                    <div class="payment-details-box">
+                      <div class="form-group" style="margin-bottom: 10px;">
+                        <label class="form-label" style="font-size: 12px;">Card Number</label>
+                        <input type="text" class="form-input" style="height: 40px; padding-left: 14px;" placeholder="4532 •••• •••• 8921">
+                      </div>
+                      <div class="payment-input-grid">
+                        <div class="form-group">
+                          <label class="form-label" style="font-size: 12px;">Expiry (MM/YY)</label>
+                          <input type="text" class="form-input" style="height: 40px; padding-left: 14px;" placeholder="08/29">
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label" style="font-size: 12px;">CVV</label>
+                          <input type="password" class="form-input" style="height: 40px; padding-left: 14px;" placeholder="•••" maxlength="3">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Payment 3: Net Banking -->
+                  <div class="payment-method-card" onclick="Checkout.selectPaymentMethod('NET_BANKING', this)">
+                    <div class="payment-header-row">
+                      <div class="payment-header-left">
+                        <div class="payment-icon-wrap">🏦</div>
+                        <div class="payment-title-group">
+                          <h4>Net Banking</h4>
+                          <p>HDFC, ICICI, SBI, Axis and 40+ banks</p>
+                        </div>
+                      </div>
+                      <div class="payment-radio-circle"></div>
+                    </div>
+                  </div>
+
+                  <!-- Payment 4: Cash on Delivery -->
+                  <div class="payment-method-card" onclick="Checkout.selectPaymentMethod('COD', this)">
+                    <div class="payment-header-row">
+                      <div class="payment-header-left">
+                        <div class="payment-icon-wrap">💵</div>
+                        <div class="payment-title-group">
+                          <h4>Cash on Delivery (COD)</h4>
+                          <p>Pay cash or UPI directly to the delivery rider</p>
+                        </div>
+                      </div>
+                      <div class="payment-radio-circle"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Column: Order Summary & Place Order -->
+            <aside class="checkout-summary-card">
+              <h3 style="font-size: 18px; font-weight: 700; margin-bottom: 16px;">Order Summary</h3>
+
+              <!-- Mini Restaurant Banner -->
+              <div class="checkout-resto-mini" id="checkoutRestoMini"></div>
+
+              <!-- Mini Items List -->
+              <div class="checkout-items-mini-list" id="checkoutMiniItemsList"></div>
+
+              <!-- Bill Breakdown -->
+              <div id="checkoutBillDetails"></div>
+
+              <!-- Place Order Button -->
+              <button type="button" class="btn btn-primary btn-place-order" id="placeOrderBtn" onclick="Checkout.placeOrder()">
+                <span>Place Order</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+              </button>
+
+              <div class="trust-badges-row">
+                <div class="trust-badge-item">
+                  <span>🔒</span>
+                  <span>256-Bit SSL Encrypted Safe Checkout</span>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Dynamic Footer -->
+    <div id="footerPlaceholder"></div>
+
+    <!-- JavaScript Scripts -->
+    <script src="js/mockData.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script src="js/checkout.js"></script>
+  </body>
+</html>

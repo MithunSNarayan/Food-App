@@ -1,0 +1,238 @@
+/* ==========================================================================
+   FoodApp - Admin Live Orders & Kitchen Board Styles
+   High-Level SaaS Grade • Kanban Board & Kitchen Tickets
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. VIEW SWITCHER & HEADER
+   -------------------------------------------------------------------------- */
+.view-switcher-group {
+  display: flex;
+  background-color: #E2E8F0;
+  border-radius: 10px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.view-switch-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #64748B;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.view-switch-btn.active {
+  background-color: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* --------------------------------------------------------------------------
+   2. KANBAN KITCHEN PIPELINE GRID
+   -------------------------------------------------------------------------- */
+.kanban-board-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: start;
+  min-height: calc(100vh - 220px);
+}
+
+.kanban-column {
+  background-color: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 200px);
+}
+
+.kanban-column-header {
+  padding: 16px 18px;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #FFFFFF;
+  border-radius: 16px 16px 0 0;
+}
+
+.kanban-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kanban-title-wrap h3 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0F172A;
+  margin: 0;
+}
+
+.kanban-count-badge {
+  background-color: #E2E8F0;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.kanban-column-cards {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   3. KITCHEN ORDER TICKET (KOT) CARD
+   -------------------------------------------------------------------------- */
+.kitchen-order-card {
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kitchen-order-card:hover {
+  transform: translateY(-2px);
+  border-color: #CBD5E1;
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.08);
+}
+
+.kot-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.kot-order-num {
+  font-size: 14px;
+  font-weight: 800;
+  color: #0F172A;
+}
+
+.kot-time-ago {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.kot-customer-info {
+  font-size: 12.5px;
+  color: #475569;
+}
+
+.kot-customer-info strong {
+  color: #0F172A;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.kot-dishes-list {
+  background-color: #F8FAFC;
+  border: 1px dashed #E2E8F0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kot-dish-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.kot-dish-name {
+  font-weight: 600;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.kot-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.kot-price-total {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-primary);
+}
+
+.kot-btn-advance {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #FFFFFF;
+  border: none;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kot-btn-advance:hover {
+  box-shadow: 0 4px 10px rgba(255, 107, 53, 0.35);
+  transform: scale(1.02);
+}
+
+/* --------------------------------------------------------------------------
+   4. LIST VIEW TABLE CONTAINER
+   -------------------------------------------------------------------------- */
+.orders-list-view-container {
+  display: none;
+}
+
+.orders-list-view-container.active {
+  display: block;
+}
+
+.kanban-board-grid.hidden {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   5. RESPONSIVE BREAKPOINTS
+   -------------------------------------------------------------------------- */
+@media (max-width: 1300px) {
+  .kanban-board-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .kanban-board-grid {
+    grid-template-columns: 1fr;
+  }
+}
